@@ -63,7 +63,7 @@ class SpiderSession:
         cookies_file = ''
         if not os.path.exists(self.cookiers_dir_path):
             return False
-        from name in os.listdir(self.cookiers_dir_path):
+        for name in os.listdir(self.cookiers_dir_path):
             if name.endswith(".cookies"):
                 cookies_file = '{}{}'.format(self.cookiers_dir_path, name)
                 break
