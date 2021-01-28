@@ -100,7 +100,6 @@ class SpiderSession:
 
 class JdLogin:
     """京东扫码打登录"""
-
     def __init__(self, spider_session: SpiderSession):
         """
         初始化扫码登录:
@@ -241,6 +240,23 @@ class JdLogin:
 
         self.refresh_login_status()
         logger.info('二维码登录成功')
+
+
+class JdSeckill:
+    """抢购流程, 预约; 抢购"""
+    def __init__(self):
+        self.spider_session = SpiderSession()
+        self.spider_session.load_cookies_from_local()
+
+        self.jdlogin = JdLogin(self.spider_session)  # 登录
+
+        # 初始化信息
+        self.sku_id = global_config.getRaw('config', 'sku_id')
+        self.seckill_num = 2
+        self.seckill_init_info = dict()
+        self.seckill_url = dict()
+        self.seckill_order_data = dict()
+        self.times = Timer()
 
 
 if __name__ == "__main__":
