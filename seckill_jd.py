@@ -9,6 +9,7 @@ import time
 from lxml import etree
 from logger import logger
 from timer import Timer
+from concurrent.futures import ProcessPoolExecutor
 from util import (
     response_status,
     save_image,
@@ -332,6 +333,23 @@ class JdSeckill:
         """预约"""
         self._reserve()
 
+    @check_login
+    def seckill(self):
+        """
+        抢购
+        """
+        self._seckill()
+
+    @check_login
+    def seckill_by_proc_pool(self, work_count=5):
+        """
+        多进程进行抢购
+        work_count：进程数量
+        """
+        with ProcessPoolExecutor(work_count) as pool:
+            for i in range(work_count):
+                pool.submit(self.seckill)
+
     def _reserve(self):
         """预约"""
         while True:
@@ -532,7 +550,58 @@ class JdSeckill:
         提交抢购（秒杀）订单
         :return: 抢购结果 True/False
         """
-        pass
+        url = 'https://marathon.jd.com/seckillnew/orderService/pc/submitOrder.action'
+        payload = {
+            'skuId': self.sku_id,
+        }
+        try:
+            self.seckill_order_data[self.sku_id] = self._get_seckill_order_data()
+        except Exception as e:
+            logger.info('抢购失败，无法获取生成订单的基本信息，接口返回:【{}】'.format(str(e)))
+            return False
+
+        logger.info('提交抢购订单...')
+        headers = {
+            'User-Agent': self.user_agent,
+            'Host': 'marathon.jd.com',
+            'Referer': 'https://marathon.jd.com/seckill/seckill.action?skuId={0}&num={1}&rid={2}'.format(
+                self.sku_id, self.seckill_num, int(time.time())),
+        }
+        resp = self.session.post(
+            url=url,
+            params=payload,
+            data=self.seckill_order_data.get(
+                self.sku_id),
+            headers=headers)
+        resp_json = None
+        try:
+            resp_json = parse_json(resp.text)
+        except Exception as e:
+            logger.info('抢购失败，返回信息:{}'.format(resp.text[0: 128]))
+            return False
+
+        # 返回信息
+        # 抢购失败：
+        # {'errorMessage': '很遗憾没有抢到，再接再厉哦。', 'orderId': 0, 'resultCode': 60074, 'skuId': 0, 'success': False}
+        # {'errorMessage': '抱歉，您提交过快，请稍后再提交订单！', 'orderId': 0, 'resultCode': 60017, 'skuId': 0, 'success': False}
+        # {'errorMessage': '系统正在开小差，请重试~~', 'orderId': 0, 'resultCode': 90013, 'skuId': 0, 'success': False}
+        # 抢购成功：
+        # {"appUrl":"xxxxx","orderId":820227xxxxx,"pcUrl":"xxxxx","resultCode":0,"skuId":0,"success":true,"totalMoney":"xxxxx"}
+        if resp_json.get('success'):
+            order_id = resp_json.get('orderId')
+            total_money = resp_json.get('totalMoney')
+            pay_url = 'https:' + resp_json.get('pcUrl')
+            logger.info('抢购成功，订单号:{}, 总价:{}, 电脑端付款链接:{}'.format(order_id, total_money, pay_url))
+            if global_config.getRaw('messenger', 'enable') == 'true':
+                success_message = "抢购成功，订单号:{}, 总价:{}, 电脑端付款链接:{}".format(order_id, total_money, pay_url)
+                # send_wechat(success_message)
+            return True
+        else:
+            logger.info('抢购失败，返回信息:{}'.format(resp_json))
+            if global_config.getRaw('messenger', 'enable') == 'true':
+                error_message = '抢购失败，返回信息:{}'.format(resp_json)
+                # send_wechat(error_message)
+            return False
 
 
 if __name__ == "__main__":
