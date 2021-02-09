@@ -88,6 +88,3 @@ class SeckillGui:
 if __name__ == '__main__':
     sgui = SeckillGui()
     sgui.gui_run()
-
-
-
