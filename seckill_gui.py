@@ -8,15 +8,19 @@ class SeckillGui:
     def __init__(self):
         self.win = tk.Tk()
         self.win.title("mt抢购")
-        self.win.geometry("900x800+500+500")
+        self.win.geometry("700x500+300+80")
 
-    def foo(self):
-        """test"""
+    def get_config(self, web):
+        """获取配置信息"""
         print('test')
 
-    def get_jd_config(self):
-        """获取京东配置信息"""
-        print('JD_configs')
+    def cat_web_config(self, web):
+        """获取平台(京东、天猫、拼多多、苏宁)配置信息"""
+        print('cat', web)
+
+    def edit_web_config(self, web):
+        """修改平台(京东、天猫、拼多多、苏宁)配置信息"""
+        print('edit', web)
 
     def myMenu(self):
         """创建菜单栏
@@ -30,9 +34,23 @@ class SeckillGui:
 
         configmenu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label='配置信息', menu=configmenu)
+        cat_config_menu = tk.Menu(configmenu)
+        configmenu.add_cascade(label='查看配置信息', menu=cat_config_menu, underline=0)
+        cat_config_menu.add_command(label='京东', command=lambda: self.cat_web_config('jd'))
+        cat_config_menu.add_command(label='天猫', command=lambda: self.cat_web_config('tm'))
+        cat_config_menu.add_command(label='拼多多', command=lambda: self.cat_web_config('pdd'))
+        cat_config_menu.add_command(label='苏宁', command=lambda: self.cat_web_config('sn'))
+        cat_config_menu.add_command(label='eid & fp', command=lambda: self.cat_web_config('eid_fp'))
+
         edit_config_menu = tk.Menu(configmenu)
-        configmenu.add_cascade(label='查看/修改配置信息', menu=edit_config_menu, underline=0)
-        edit_config_menu.add_command(label='京东', command=self.get_jd_config)
+        configmenu.add_cascade(label='修改配置信息', menu=edit_config_menu, underline=0)
+        edit_config_menu.add_command(label='京东', command=lambda: self.edit_web_config('jd'))
+        edit_config_menu.add_command(label='天猫', command=lambda: self.edit_web_config('tm'))
+        edit_config_menu.add_command(label='拼多多', command=lambda: self.edit_web_config('pdd'))
+        edit_config_menu.add_command(label='苏宁', command=lambda: self.edit_web_config('sn'))
+        edit_config_menu.add_command(label='eid & fp', command=lambda: self.edit_web_config('eid_fp'))
+
+
 
         helpmenu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label='帮助', menu=helpmenu)
