@@ -50,8 +50,6 @@ class SeckillGui:
         edit_config_menu.add_command(label='苏宁', command=lambda: self.edit_web_config('sn'))
         edit_config_menu.add_command(label='eid & fp', command=lambda: self.edit_web_config('eid_fp'))
 
-
-
         helpmenu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label='帮助', menu=helpmenu)
         return menubar
