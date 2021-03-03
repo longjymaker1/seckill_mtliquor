@@ -5,6 +5,7 @@ import tkinter as tk
 
 class SeckillGui:
     """创建秒杀gui"""
+
     def __init__(self):
         self.win = tk.Tk()
         self.win.title("mt抢购")
@@ -54,21 +55,37 @@ class SeckillGui:
         menubar.add_cascade(label='帮助', menu=helpmenu)
         return menubar
 
+    # def web_selection(self):
+    #     if isjd.get()
+
     def mySeckillWebSelect(self):
         """抢购网站选择
         选择网站复选框，京东、天猫、品多多、苏宁
         """
-        pass
+        l = tk.Label(self.win, text='选择平台', font=("黑体", 9))
+        l.place(x=20, y=3)
+        isjd = tk.BooleanVar()
+        istm = tk.BooleanVar()
+        ispdd = tk.BooleanVar()
+        issn = tk.BooleanVar()
+        b_jd = tk.Checkbutton(self.win, text='京东', variable=isjd, onvalue=True, offvalue=False, command=self.web_selection)
+        b_tm = tk.Checkbutton(self.win, text='天猫', variable=istm, onvalue=True, offvalue=False, command=self.web_selection)
+        b_pdd = tk.Checkbutton(self.win, text='拼多多', variable=ispdd, onvalue=True, offvalue=False, command=self.web_selection)
+        b_sn = tk.Checkbutton(self.win, text='苏宁', variable=issn, onvalue=True, offvalue=False, command=self.web_selection)
+        b_jd.place(x=20, y=25)
+        b_tm.place(x=80, y=25)
+        b_pdd.place(x=130, y=25)
+        b_sn.place(x=200, y=25)
 
     def eid_fp_Config(self):
         """config信息
         展示当前config信息, 主要是eid, fp信息
         """
-        eid_label = tk.Label(self.win, text="eid", bg="blue", font=("黑体", 12), width=15)
-        eid_label.place(x=20, y=40)
+        eid_label = tk.Label(self.win, text="eid", bg="blue", font=("黑体", 12), width=5)
+        eid_label.place(x=20, y=65)
 
-        fp_label = tk.Label(self.win, text='fp', bg="blue", font=("黑体", 12), width=15)
-        fp_label.place(x=20, y=80)
+        fp_label = tk.Label(self.win, text='fp', bg="blue", font=("黑体", 12), width=5)
+        fp_label.place(x=20, y=90)
 
     def myQrCode(self):
         """展示二维码
@@ -97,6 +114,7 @@ class SeckillGui:
         """运行gui"""
 
         self.eid_fp_Config()
+        self.mySeckillWebSelect()
         self.win.config(menu=self.myMenu())
         self.win.mainloop()
 
