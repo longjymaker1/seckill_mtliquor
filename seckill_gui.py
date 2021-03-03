@@ -5,7 +5,6 @@ import tkinter as tk
 
 class SeckillGui:
     """创建秒杀gui"""
-
     def __init__(self):
         self.win = tk.Tk()
         self.win.title("mt抢购")
@@ -36,27 +35,59 @@ class SeckillGui:
         configmenu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label='配置信息', menu=configmenu)
         cat_config_menu = tk.Menu(configmenu)
-        configmenu.add_cascade(label='查看配置信息', menu=cat_config_menu, underline=0)
-        cat_config_menu.add_command(label='京东', command=lambda: self.cat_web_config('jd'))
-        cat_config_menu.add_command(label='天猫', command=lambda: self.cat_web_config('tm'))
-        cat_config_menu.add_command(label='拼多多', command=lambda: self.cat_web_config('pdd'))
-        cat_config_menu.add_command(label='苏宁', command=lambda: self.cat_web_config('sn'))
-        cat_config_menu.add_command(label='eid & fp', command=lambda: self.cat_web_config('eid_fp'))
+        configmenu.add_cascade(label='查看配置信息',
+                               menu=cat_config_menu,
+                               underline=0)
+        cat_config_menu.add_command(label='京东',
+                                    command=lambda: self.cat_web_config('jd'))
+        cat_config_menu.add_command(label='天猫',
+                                    command=lambda: self.cat_web_config('tm'))
+        cat_config_menu.add_command(label='拼多多',
+                                    command=lambda: self.cat_web_config('pdd'))
+        cat_config_menu.add_command(label='苏宁',
+                                    command=lambda: self.cat_web_config('sn'))
+        cat_config_menu.add_command(
+            label='eid & fp', command=lambda: self.cat_web_config('eid_fp'))
 
         edit_config_menu = tk.Menu(configmenu)
-        configmenu.add_cascade(label='修改配置信息', menu=edit_config_menu, underline=0)
-        edit_config_menu.add_command(label='京东', command=lambda: self.edit_web_config('jd'))
-        edit_config_menu.add_command(label='天猫', command=lambda: self.edit_web_config('tm'))
-        edit_config_menu.add_command(label='拼多多', command=lambda: self.edit_web_config('pdd'))
-        edit_config_menu.add_command(label='苏宁', command=lambda: self.edit_web_config('sn'))
-        edit_config_menu.add_command(label='eid & fp', command=lambda: self.edit_web_config('eid_fp'))
+        configmenu.add_cascade(label='修改配置信息',
+                               menu=edit_config_menu,
+                               underline=0)
+        edit_config_menu.add_command(
+            label='京东', command=lambda: self.edit_web_config('jd'))
+        edit_config_menu.add_command(
+            label='天猫', command=lambda: self.edit_web_config('tm'))
+        edit_config_menu.add_command(
+            label='拼多多', command=lambda: self.edit_web_config('pdd'))
+        edit_config_menu.add_command(
+            label='苏宁', command=lambda: self.edit_web_config('sn'))
+        edit_config_menu.add_command(
+            label='eid & fp', command=lambda: self.edit_web_config('eid_fp'))
 
         helpmenu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label='帮助', menu=helpmenu)
         return menubar
 
-    # def web_selection(self):
-    #     if isjd.get()
+    def web_selection(self):
+        if self.isjd.get() == True:
+            print("选择京东")
+        else:
+            print("删除京东")
+
+        if self.istm.get() == True:
+            print("选择天猫")
+        else:
+            print("删除天猫")
+
+        if self.ispdd.get() == True:
+            print("选择品多多")
+        else:
+            print("删除品多多")
+
+        if self.issn.get() == True:
+            print("选择苏宁")
+        else:
+            print("删除苏宁")
 
     def mySeckillWebSelect(self):
         """抢购网站选择
@@ -64,14 +95,34 @@ class SeckillGui:
         """
         l = tk.Label(self.win, text='选择平台', font=("黑体", 9))
         l.place(x=20, y=3)
-        isjd = tk.BooleanVar()
-        istm = tk.BooleanVar()
-        ispdd = tk.BooleanVar()
-        issn = tk.BooleanVar()
-        b_jd = tk.Checkbutton(self.win, text='京东', variable=isjd, onvalue=True, offvalue=False, command=self.web_selection)
-        b_tm = tk.Checkbutton(self.win, text='天猫', variable=istm, onvalue=True, offvalue=False, command=self.web_selection)
-        b_pdd = tk.Checkbutton(self.win, text='拼多多', variable=ispdd, onvalue=True, offvalue=False, command=self.web_selection)
-        b_sn = tk.Checkbutton(self.win, text='苏宁', variable=issn, onvalue=True, offvalue=False, command=self.web_selection)
+        self.isjd = tk.BooleanVar()
+        self.istm = tk.BooleanVar()
+        self.ispdd = tk.BooleanVar()
+        self.issn = tk.BooleanVar()
+        b_jd = tk.Checkbutton(self.win,
+                              text='京东',
+                              variable=self.isjd,
+                              onvalue=True,
+                              offvalue=False,
+                              command=self.web_selection)
+        b_tm = tk.Checkbutton(self.win,
+                              text='天猫',
+                              variable=self.istm,
+                              onvalue=True,
+                              offvalue=False,
+                              command=self.web_selection)
+        b_pdd = tk.Checkbutton(self.win,
+                               text='拼多多',
+                               variable=self.ispdd,
+                               onvalue=True,
+                               offvalue=False,
+                               command=self.web_selection)
+        b_sn = tk.Checkbutton(self.win,
+                              text='苏宁',
+                              variable=self.issn,
+                              onvalue=True,
+                              offvalue=False,
+                              command=self.web_selection)
         b_jd.place(x=20, y=25)
         b_tm.place(x=80, y=25)
         b_pdd.place(x=130, y=25)
@@ -81,10 +132,18 @@ class SeckillGui:
         """config信息
         展示当前config信息, 主要是eid, fp信息
         """
-        eid_label = tk.Label(self.win, text="eid", bg="blue", font=("黑体", 12), width=5)
+        eid_label = tk.Label(self.win,
+                             text="eid",
+                             bg="blue",
+                             font=("黑体", 12),
+                             width=5)
         eid_label.place(x=20, y=65)
 
-        fp_label = tk.Label(self.win, text='fp', bg="blue", font=("黑体", 12), width=5)
+        fp_label = tk.Label(self.win,
+                            text='fp',
+                            bg="blue",
+                            font=("黑体", 12),
+                            width=5)
         fp_label.place(x=20, y=90)
 
     def myQrCode(self):
