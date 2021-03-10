@@ -156,6 +156,8 @@ class SeckillGui:
         """预约按钮
         预约入口
         """
+        res_button = tk.Button(self.win, text='预约', font=("黑体", 12))
+        res_button.place(x=40, y=150)
 
     def mySeckill(self):
         """抢购按钮
@@ -174,6 +176,7 @@ class SeckillGui:
 
         self.eid_fp_Config()
         self.mySeckillWebSelect()
+        self.myReserve()
         self.win.config(menu=self.myMenu())
         self.win.mainloop()
 
