@@ -3,6 +3,10 @@
 import tkinter as tk
 
 
+def tmp():
+    print('123')
+
+
 class SeckillGui:
     """创建秒杀gui"""
     def __init__(self):
@@ -69,22 +73,22 @@ class SeckillGui:
         return menubar
 
     def web_selection(self):
-        if self.isjd.get() == True:
+        if self.isjd.get():
             print("选择京东")
         else:
             print("删除京东")
 
-        if self.istm.get() == True:
+        if self.istm.get():
             print("选择天猫")
         else:
             print("删除天猫")
 
-        if self.ispdd.get() == True:
+        if self.ispdd.get():
             print("选择品多多")
         else:
             print("删除品多多")
 
-        if self.issn.get() == True:
+        if self.issn.get():
             print("选择苏宁")
         else:
             print("删除苏宁")
@@ -156,14 +160,15 @@ class SeckillGui:
         """预约按钮
         预约入口
         """
-        res_button = tk.Button(self.win, text='预约', font=("黑体", 12))
-        res_button.place(x=40, y=150)
+        res_button = tk.Button(self.win, text='预约', font=("黑体", 12), command=tmp)
+        res_button.place(x=20, y=180)
 
     def mySeckill(self):
         """抢购按钮
         抢购入口
         """
-        pass
+        kill_button = tk.Button(self.win, text='抢购', font=("黑体", 12), command=tmp)
+        kill_button.place(x=20, y=215)
 
     def mySeckillLog(self):
         """日志输出
@@ -173,10 +178,10 @@ class SeckillGui:
 
     def gui_run(self):
         """运行gui"""
-
         self.eid_fp_Config()
         self.mySeckillWebSelect()
         self.myReserve()
+        self.mySeckill()
         self.win.config(menu=self.myMenu())
         self.win.mainloop()
 
