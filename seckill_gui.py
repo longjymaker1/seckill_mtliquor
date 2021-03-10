@@ -160,21 +160,30 @@ class SeckillGui:
         """预约按钮
         预约入口
         """
-        res_button = tk.Button(self.win, text='预约', font=("黑体", 12), command=tmp)
+        res_button = tk.Button(self.win,
+                               text='预约',
+                               font=("黑体", 12),
+                               command=tmp)
         res_button.place(x=20, y=180)
 
     def mySeckill(self):
         """抢购按钮
         抢购入口
         """
-        kill_button = tk.Button(self.win, text='抢购', font=("黑体", 12), command=tmp)
+        kill_button = tk.Button(self.win,
+                                text='抢购',
+                                font=("黑体", 12),
+                                command=tmp)
         kill_button.place(x=20, y=215)
 
     def mySeckillLog(self):
         """日志输出
         查看当前日志，方便了解当前的状态
         """
-        pass
+        loger = tk.Text(self.win, height=10)
+        loger.place(x=0, y=400)
+        loger.insert('insert', 'tests')
+        return loger
 
     def gui_run(self):
         """运行gui"""
@@ -182,6 +191,7 @@ class SeckillGui:
         self.mySeckillWebSelect()
         self.myReserve()
         self.mySeckill()
+        loger = self.mySeckillLog()
         self.win.config(menu=self.myMenu())
         self.win.mainloop()
 
